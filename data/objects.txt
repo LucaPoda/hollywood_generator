@@ -1,0 +1,100 @@
+il libro
+la matita
+la gomma
+l'album
+il computer
+lo smartphone
+la lavagna
+il quaderno
+la stoffa
+il filo
+la cera
+la colla
+la forbice
+il vaso
+il piatto
+il bicchiere
+la forchetta
+il cucchiaio
+il coltello
+la posata
+il tegame
+la padella
+il cucchiaio di legno
+il mestolo
+la spatola
+il pentolino
+la tazza
+il piattino
+il vassoio
+il tovagliolo
+il tovagliolo di carta
+la tovaglia
+il tappeto
+il divano
+la poltrona
+il pouf
+il letto
+la sedia
+il tavolo
+il cassetto
+l'armadio
+l'anta
+il comò
+il comodino
+il tavolino
+la scrivania
+la sedia da ufficio
+il computer portatile
+la stampante
+la fotocopiatrice
+la macchina del fax
+il telefono
+il televisore
+il videoregistratore
+il DVD player
+l'impianto stereo
+la cassa acustica
+il microfono
+il radiomicrofono
+il computer fisso
+lo schermo del computer
+la tastiera
+il mouse
+la penna
+la matita
+la gomma
+il temperamatite
+il righello
+la lavagna
+la lavagna luminosa
+il proiettore
+il retroproiettore
+l'impianto di illuminazione
+il faretto
+la lampada
+il lampadario
+il soffitto
+il pavimento
+il muro
+la porta
+la finestra
+il cassetto
+il lavandino
+il lavandino della cucina
+il lavabo
+il lavabo della cucina
+il water
+il bidè
+la doccia
+la vasca da bagno
+il lavandino del bagno
+il lavabo del bagno
+il water del bagno
+lo specchio
+il lavandino
+il lavabo
+il water
+il bidè
+la doccia
+la vasca da bagno

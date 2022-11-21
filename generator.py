@@ -2,6 +2,8 @@ import random
 import psycopg2
 from configparser import ConfigParser
 
+spielberg = ("Spielberg", 1946)
+
 def config(filename='connection.ini', section='postgresql'):
     # create a parser
     parser = ConfigParser()
@@ -51,212 +53,13 @@ def connect():
             conn.close()
             print('Database connection closed.')
 
-male_names = [
-    "Leonardo",
-    "Francesco",
-    "Alessandro",
-    "Lorenzo",
-    "Mattia",
-    "Tommaso",
-    "Gabriele",
-    "Andrea",
-    "Riccardo",
-    "Edoardo"
-]
+def read_file(filename):
+    data = []
+    with open(filename) as file:
+        for l in file.readlines():
+            data.append(l.strip('\n'))
+    return data
 
-female_names = [
-    "Sofia",
-    "Giulia",
-    "Aurora",
-    "Ginevara",
-    "Alice",
-    "Beatrice",
-    "Emma",
-    "Giorgia",
-    "Vittoria",
-    "Matilde"
-]
-
-surnames = [
-    "Rossi",
-    "Ferrari",
-    "Russo",
-    "Bianchi",
-    "Romano",
-    "Gallo",
-    "Costa",
-    "Fontana",
-    "Conti",
-    "Esposito",
-    "Ricci",
-    "Bruno",
-    "De Luca",
-    "Moretti",
-    "Marino",
-    "Greco",
-    "Barbieri",
-    "Lombardi",
-    "Giordano",
-    "Cassano",
-    "Colombo",
-    "Mancini",
-    "Longo",
-    "Leone",
-    "Martinelli",
-    "Marchetti",
-    "Martini",
-    "Galli",
-    "Gatti",
-    "Mariani",
-    "Ferrara",
-    "Santoro",
-    "Marini",
-    "Bianco",
-    "Conte",
-    "Serra",
-    "Farina",
-    "Gentile",
-    "Caruso",
-    "Morelli",
-    "Ferri",
-    "Testa",
-    "Ferraro",
-    "Pellegrini",
-    "Grassi",
-    "Rossetti",
-    "D'Angelo",
-    "Bernardi",
-    "Mazza",
-    "Rizzi",
-    "Natale"
-]
-
-objects = [
-    "il libro",
-    "la matita",
-    "la gomma",
-    "l'album",
-    "il computer",
-    "lo smartphone",
-    "la lavagna",
-    "il quaderno",
-    "la stoffa",
-    "il filo",
-    "la cera",
-    "la colla",
-    "la forbice",
-    "il vaso",
-    "il piatto",
-    "il bicchiere",
-    "la forchetta",
-    "il cucchiaio",
-    "il coltello",
-    "la posata",
-    "il tegame",
-    "la padella",
-    "il cucchiaio di legno",
-    "il mestolo",
-    "la spatola",
-    "il pentolino",
-    "la tazza",
-    "il piattino",
-    "il vassoio",
-    "il tovagliolo",
-    "il tovagliolo di carta",
-    "la tovaglia",
-    "il tappeto",
-    "il divano",
-    "la poltrona",
-    "il pouf",
-    "il letto",
-    "la sedia",
-    "il tavolo",
-    "il cassetto",
-    "l'armadio",
-    "l'anta",
-    "il comò",
-    "il comodino",
-    "il tavolino",
-    "la scrivania",
-    "la sedia da ufficio",
-    "il computer portatile",
-    "la stampante",
-    "la fotocopiatrice",
-    "la macchina del fax",
-    "il telefono",
-    "il televisore",
-    "il videoregistratore",
-    "il DVD player",
-    "l'impianto stereo",
-    "la cassa acustica",
-    "il microfono",
-    "il radiomicrofono",
-    "il computer fisso",
-    "lo schermo del computer",
-    "la tastiera",
-    "il mouse",
-    "la penna",
-    "la matita",
-    "la gomma",
-    "il temperamatite",
-    "il righello",
-    "la lavagna",
-    "la lavagna luminosa",
-    "il proiettore",
-    "il retroproiettore",
-    "l'impianto di illuminazione",
-    "il faretto",
-    "la lampada",
-    "il lampadario",
-    "il soffitto",
-    "il pavimento",
-    "il muro",
-    "la porta",
-    "la finestra",
-    "il cassetto",
-    "il lavandino",
-    "il lavandino della cucina",
-    "il lavabo",
-    "il lavabo della cucina",
-    "il water",
-    "il bidè",
-    "la doccia",
-    "la vasca da bagno",
-    "il lavandino del bagno",
-    "il lavabo del bagno",
-    "il water del bagno",
-    "lo specchio",
-    "il lavandino",
-    "il lavabo",
-    "il water",
-    "il bidè",
-    "la doccia",
-    "la vasca da bagno"
-]
-
-awards = [
-    "Cannes International Film Festival",
-    "Venice International Film Festival",
-    "Moscow International Film Festival",
-    "Istanbul Animation Festival",
-    "BFI London Film Festival",
-    "oscar"
-]
-
-award_categories = [
-    "best director",
-    "best visual effects",
-    "best sound mixing",
-    "best pictures",
-    "best original story"
-]
-
-results = [
-    "won",
-    "nominated"
-]
-
-spielberg = ("Spielberg", 1946)
 
 def get_progress_bar(cur, tot):
     length = 100
@@ -270,29 +73,29 @@ def get_progress_bar(cur, tot):
             bar += "#"
         else:
             bar += " "
-    bar += " - " + '{:.2f}%'.format(cur/tot*100) + " - " + str(cur) + "/" + str(tot)
+    bar += " - " + '{:.2f}%'.format(cur/tot*100 if tot > 0 else 0) + " - " + str(cur) + "/" + str(tot)
     return bar
 
-def random_title():
+def random_title(male_names, female_names, objects):
     return random.choice(male_names) + ", " + random.choice(female_names) + " e " + random.choice(objects) + " di " + random.choice(male_names+female_names)
 
-def random_name():
+def random_name(male_names, female_names, surnames):
     return random.choice(male_names+female_names) + " " + random.choice(surnames)
 
-def random_director():
-    return (random_name(), random.randint(1935, 2005))
+def random_director(male_names, female_names, surnames):
+    return (random_name(male_names, female_names, surnames), random.randint(1935, 2005))
 
-def random_movie(director):
+def random_movie(director, male_names, female_names, objects):
     budget = random.randint(10_000, 500_000_000)
     return (
-        random_title(), 
+        random_title(male_names, female_names, objects), 
         random.randint(director[1], 2022), 
         director[0], 
         budget, 
         random.randint(int(budget/4), budget*random.randint(1, 3))
     )
 
-def random_directoraward(director):
+def random_directoraward(director, awards, results):
     return (
         director[0],
         random.randint(director[1], 2022),
@@ -300,7 +103,7 @@ def random_directoraward(director):
         random.choice(results)
     )
 
-def random_movieaward(movie):
+def random_movieaward(movie, awards, results, award_categories):
     return (
         movie[0],
         movie[1],
@@ -308,12 +111,25 @@ def random_movieaward(movie):
         random.choice(results)
     )
 
-def generate_directors(count):
+def push_data(conn, data, query):
+    tot = len(data)
+    for i, record in enumerate(data):
+        print (record)
+        cur.execute(query, record)
+        if i > 0:
+            print ("\033[A                             \033[A")
+        print("Inserting directors:  " + get_progress_bar(i, tot))
+    
+    conn.commit()
+    print ("\033[A                             \033[A")
+    print("Inserting directors:  " + get_progress_bar(tot, tot))
+
+def generate_directors(count, male_names, female_names, surnames):
     directors = []
     for i in range(0, count-1):
         found = True
         while (found == True):
-            director = random_director()
+            director = random_director(male_names, female_names, surnames)
             found = False
             for d in directors:
                 if d[0] == director[0]:
@@ -328,26 +144,14 @@ def generate_directors(count):
     print("Generating directors: " + get_progress_bar(count, count))
     return directors
 
-def push_directors(conn, directors):
-    tot = len(directors)
-    for i, director in enumerate(directors):
-        cur.execute("insert into directors values (%s, %s)", director)
-        if i > 0:
-            print ("\033[A                             \033[A")
-        print("Inserting directors:  " + get_progress_bar(i, len(directors)))
-    
-    conn.commit()
-    print ("\033[A                             \033[A")
-    print("Inserting directors:  " + get_progress_bar(len(directors), len(directors)))
-
-def generate_directorawards(directors, count):
+def generate_directorawards(directors, count, awards, results):
     directorawards = []
     for i, director in enumerate(directors):
         n = random.randint(0, count)
         for j in range(0, n):
             found = True
             while (found == True):
-                award = random_directoraward(director)
+                award = random_directoraward(director, awards, results)
                 found = False
                 for a in directorawards:
                     if a[0] == award[0] and a[1] == award[1] and a[2] == award[2]:
@@ -361,18 +165,7 @@ def generate_directorawards(directors, count):
     print("Generating director awards: " + get_progress_bar(len(directors), len(directors)))
     return directorawards
 
-def push_directorawards(conn, directorawards):
-    tot = len(directorawards)
-    for i, directoraward in enumerate(directorawards):
-        cur.execute("insert into directorawards values (%s, %s, %s, %s)", directoraward)
-        if i > 0:
-            print ("\033[A                             \033[A")
-        print("Inserting director awards: " + get_progress_bar(i, len(directorawards)))
-    conn.commit()
-    print ("\033[A                             \033[A")
-    print("Inserting director awards: " + get_progress_bar(len(directorawards), len(directorawards)))
-
-def generate_movies(directors, count):
+def generate_movies(directors, count, male_names, female_names, objects):
     movies = []
     for i, director in enumerate(directors):
         if random.randint(0, 3) == 0:
@@ -381,7 +174,7 @@ def generate_movies(directors, count):
         for j in range(0, n):
             found = True
             while (found == True):
-                movie = random_movie(director)
+                movie = random_movie(director, male_names, female_names, objects)
                 found = False
                 for m in movies:
                     if m[0] == movie[0] and m[1] == movie[1]:
@@ -394,7 +187,7 @@ def generate_movies(directors, count):
     for i in range(0, random.randint(10, 40)):
         found = True
         while (found == True):
-            movie = random_movie(spielberg)
+            movie = random_movie(spielberg, male_names, female_names, objects)
             found = False
             for m in movies:
                 if m[0] == movie[0] and m[1] == movie[1]:
@@ -405,25 +198,15 @@ def generate_movies(directors, count):
     print("Generating movies:  " + get_progress_bar(len(movies), len(movies)))
     return movies
 
-def push_movies(conn, movies):
-    tot = len(movies)
-    for i, movie in enumerate(movies):
-        cur.execute("insert into movies values (%s, %s, %s, %s, %s)", movie)
-        if i > 0:
-            print ("\033[A                             \033[A")
-        print("Inserting movies: " + get_progress_bar(i, len(movies)))
-    conn.commit()
-    print ("\033[A                             \033[A")
-    print("Inserting movies: " + get_progress_bar(len(movies), len(movies)))
-
-def generate_movieawards(movies):
+def generate_movieawards(movies, awards, results, award_categories):
     movieawards = []
     for i, movie in enumerate(movies):
-        n = random.randint(0, 3)
-        for j in range(0, n):
+        if random.randint(0, 3) == 0:
+            continue
+        for j in range(0, random.randint(0, len(awards))):
             found = True
             while (found == True):
-                award = random_movieaward(movie)
+                award = random_movieaward(movie, awards, results, award_categories)
                 found = False
                 for a in movieawards:
                     if a[0] == award[0] and a[1] == award[1] and a[2] == award[2]:
@@ -437,16 +220,17 @@ def generate_movieawards(movies):
     print("Generating movie awards:  " + get_progress_bar(len(movies), len(movies)))
     return movieawards
 
+def push_directors(conn, directors):
+    push_data(conn, directors, "insert into directors values (%s, %s)")
+
+def push_directorawards(conn, directorawards):
+    push_data(conn, directorawards, "insert into directorawards values (%s, %s, %s, %s)")
+
+def push_movies(conn, movies):
+    push_data(conn, movies, "insert into movies values (%s, %s, %s, %s, %s)")
+
 def push_movieawards(conn, movieawards):
-    tot = len(movieawards)
-    for i, movieaward in enumerate(movieawards):
-        cur.execute("insert into movieawards values (%s, %s, %s, %s)", movieaward)
-        if i > 0:
-            print ("\033[A                             \033[A")
-        print("Inserting movie awards: " + get_progress_bar(i, len(movieawards)))
-    conn.commit()
-    print ("\033[A                             \033[A")
-    print("Inserting movies awards: " + get_progress_bar(len(movieawards), len(movieawards)))
+    push_data(conn, movieawards, "insert into movieawards values (%s, %s, %s, %s)")
 
 if __name__ == "__main__":
     conn = connect()
@@ -481,16 +265,25 @@ if __name__ == "__main__":
                     if n_movies == '':
                         n_movies = 40
 
-                    directors = generate_directors(int(n_directors))
+                    awards = read_file('data/awards.txt')
+                    award_categories = read_file('data/award_categories.txt')
+                    female_names = read_file('data/male_names.txt')
+                    male_names = read_file('data/male_names.txt')
+                    objects = read_file('data/objects.txt')
+                    results = read_file('data/results.txt')
+                    surnames = read_file('data/surnames.txt')
+                    
+
+                    directors = generate_directors(int(n_directors), male_names, female_names, surnames)
                     push_directors(conn, directors)
 
-                    directorawards = generate_directorawards(directors, int(n_d_awards))
+                    directorawards = generate_directorawards(directors, int(n_d_awards), awards, results)
                     push_directorawards(conn, directorawards)
 
-                    movies = generate_movies(directors, int(n_movies))
+                    movies = generate_movies(directors, int(n_movies), male_names, female_names, objects)
                     push_movies(conn, movies)    
                 
-                    movieawards = generate_movieawards(movies)
+                    movieawards = generate_movieawards(movies, awards, results, award_categories)
                     push_movieawards(conn, movieawards)
             finally:
                 cur.close()
