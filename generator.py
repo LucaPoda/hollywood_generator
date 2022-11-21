@@ -114,7 +114,6 @@ def random_movieaward(movie, awards, results, award_categories):
 def push_data(conn, data, query):
     tot = len(data)
     for i, record in enumerate(data):
-        print (record)
         cur.execute(query, record)
         if i > 0:
             print ("\033[A                             \033[A")
