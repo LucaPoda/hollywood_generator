@@ -111,13 +111,13 @@ def random_movieaward(movie, awards, results, award_categories):
         random.choice(results)
     )
 
-def push_data(conn, data, query):
+def push_data(conn, data, query, name):
     tot = len(data)
     for i, record in enumerate(data):
         cur.execute(query, record)
         if i > 0:
             print ("\033[A                             \033[A")
-        print("Inserting directors:  " + get_progress_bar(i, tot))
+        print("Inserting " + name + ":  " + get_progress_bar(i, tot))
     
     conn.commit()
     print ("\033[A                             \033[A")
@@ -220,16 +220,16 @@ def generate_movieawards(movies, awards, results, award_categories):
     return movieawards
 
 def push_directors(conn, directors):
-    push_data(conn, directors, "insert into directors values (%s, %s)")
+    push_data(conn, directors, "insert into directors values (%s, %s)", "directors")
 
 def push_directorawards(conn, directorawards):
-    push_data(conn, directorawards, "insert into directorawards values (%s, %s, %s, %s)")
+    push_data(conn, directorawards, "insert into directorawards values (%s, %s, %s, %s)", "director awards")
 
 def push_movies(conn, movies):
-    push_data(conn, movies, "insert into movies values (%s, %s, %s, %s, %s)")
+    push_data(conn, movies, "insert into movies values (%s, %s, %s, %s, %s)", "movies")
 
 def push_movieawards(conn, movieawards):
-    push_data(conn, movieawards, "insert into movieawards values (%s, %s, %s, %s)")
+    push_data(conn, movieawards, "insert into movieawards values (%s, %s, %s, %s)", "movie awards")
 
 if __name__ == "__main__":
     conn = connect()
