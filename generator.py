@@ -86,13 +86,13 @@ def random_director(male_names, female_names, surnames):
     return (random_name(male_names, female_names, surnames), random.randint(1935, 2005))
 
 def random_movie(director, male_names, female_names, objects):
-    budget = random.randint(10_000, 500_000_000)
+    budget = random.randint(10_000, 100_000_000)
     return (
         random_title(male_names, female_names, objects), 
         random.randint(director[1], 2022), 
         director[0], 
         budget, 
-        random.randint(int(budget/4), budget*random.randint(1, 3))
+        random.randint(int(budget/4), budget*random.randint(1, 5))
     )
 
 def random_directoraward(director, awards, results):
@@ -239,8 +239,21 @@ if __name__ == "__main__":
             cur = conn.cursor()
             try:
                 confirm = input("Are you sure to start the process? All data in the database will be deleted. [Y, n]")
-                print("'" + confirm + "'")
-                if (confirm == 'Y' or confirm == ''):
+                if (confirm == 'Y' or confirm == 'y' or confirm == ''):
+                    geterate = input("Do you want to the generate database schema? [y, N]")
+                    if (geterate == 'y' or geterate == 'Y'):
+                        print("Generating database schema...")
+                        try:
+                            cur.execute(open("query/create.sql", "r").read())
+                            conn.commit()
+                        except(Exception) as error:
+                            pass;
+
+                        cur.execute(open("query/create.sql", "r").read())
+                        conn.commit()
+                    else:
+                        print ("Skipped database schema generation.")
+                        
                     print("Deleting movieawards...")
                     cur.execute("delete from movieawards")
                     print("Deleting movies...")
