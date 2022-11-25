@@ -99,7 +99,7 @@ def random_directoraward(director, awards, results):
     return (
         director[0],
         random.randint(director[1], 2022),
-        random.choice(awards) + ", best director",
+        random.choice(awards),
         random.choice(results)
     )
 
